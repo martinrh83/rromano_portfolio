@@ -7,6 +7,8 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import tsParser from "@typescript-eslint/parser";
 import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default defineConfig([
   globalIgnores(["dist"]),
@@ -19,6 +21,7 @@ export default defineConfig([
       reactRefresh.configs.vite,
       react.configs.flat.recommended, // Reglas core de React (flat)
       jsxA11y.flatConfigs.recommended, // Accesibilidad JSX (flat)
+      eslintConfigPrettier,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -30,8 +33,13 @@ export default defineConfig([
         version: "detect",
       },
     },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
     rules: {
       "react/react-in-jsx-scope": "off",
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
     },
   },
 ]);
