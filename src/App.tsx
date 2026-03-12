@@ -1,6 +1,7 @@
 import "./App.css";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,6 +17,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function App() {
+  const [showInfo, setShowInfo] = useState(false);
   const {
     register,
     handleSubmit,
@@ -32,7 +34,19 @@ function App() {
 
   return (
     <div style={{ maxWidth: 400, margin: "auto" }}>
-      <h1>Simple React Hook Form Demo (with Zod)</h1>
+      <h1>Simple React Hook Form</h1>
+      <p
+        onMouseEnter={() => setShowInfo(true)}
+        onMouseLeave={() => setShowInfo(false)}
+      >
+        Mas info
+      </p>
+      {showInfo && (
+        <div>
+          Este es un formulario de ejemplo usando React Hook Form y Zod para
+          validación.
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         {/* Name field */}
         <div style={{ marginBottom: 16 }}>
