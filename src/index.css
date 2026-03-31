@@ -315,14 +315,21 @@ h1 {
   right: 0;
   width: 100%;
   z-index: 100;
-  transition: all 0.3s ease;
+  /* Explicit properties only — avoids border flash/layout-shift from `transition: all` */
+  transition:
+    background-color 0.3s ease,
+    backdrop-filter 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
   padding: 1.5rem 2rem;
+  /* Always present so no layout shift when it becomes visible */
+  border-bottom: 1px solid transparent;
 }
 
 .navbar.scrolled {
   background-color: rgba(26, 26, 26, 0.8);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--grid-primary);
+  border-bottom-color: var(--grid-primary);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
