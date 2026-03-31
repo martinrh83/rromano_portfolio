@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { HiXMark } from "react-icons/hi2";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,21 +53,7 @@ export function Navbar() {
         onClick={() => setMobileMenuOpen(false)}
         aria-label="Close menu"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          width={24}
-          height={24}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
+        <HiXMark size={24} />
       </button>
 
       <ul className="navbar-links-mobile">
