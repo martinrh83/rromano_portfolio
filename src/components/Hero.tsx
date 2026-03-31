@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { useRef } from "react";
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -119,7 +119,7 @@ export function Hero() {
 
           {/* Secondary CTA */}
           <a href="#contact" className="hero-cta-secondary">
-            <span className="relative z-10">Let's Connect</span>
+            <span className="relative z-10">Lets Connect</span>
           </a>
 
           {/* Tertiary CTA */}
