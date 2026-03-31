@@ -540,6 +540,10 @@ h1 {
   margin-top: 4rem;
 }
 
+/* Node diameter is 20px. On desktop the line bisects the center column (auto = 20px node).
+   On mobile we pin everything to a fixed left offset so line and node centers match exactly.
+   Mobile gutter: 1.5rem | node radius: 10px → line left = calc(1.5rem + 10px) */
+
 .timeline-line {
   position: absolute;
   left: 50%;
@@ -557,8 +561,15 @@ h1 {
 }
 
 @media (max-width: 1024px) {
+  .timeline-container {
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+  }
+
+  /* Line center = left edge of container + half node width (10px) */
   .timeline-line {
-    left: 2rem;
+    left: calc(1.5rem + 10px);
+    transform: translateX(-50%);
   }
 }
 
@@ -577,8 +588,10 @@ h1 {
 }
 
 @media (max-width: 1024px) {
+  /* Node column is exactly 20px so calc above is always accurate */
   .timeline-item {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 20px 1fr;
+    gap: 1.25rem;
     padding-left: 0;
   }
 }
@@ -598,6 +611,7 @@ h1 {
   .timeline-item-right .timeline-card {
     grid-column: 2;
     text-align: left;
+    min-width: 0; /* prevent overflow on small screens */
   }
 }
 
@@ -615,6 +629,8 @@ h1 {
 @media (max-width: 1024px) {
   .timeline-node {
     grid-column: 1;
+    /* Vertically align node with the first line of the card title */
+    margin-top: 0.35rem;
   }
 }
 
