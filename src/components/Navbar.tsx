@@ -25,6 +25,7 @@ export function Navbar() {
 
   const navLinks = [
     { label: "Work", id: "work" },
+    { label: "Education", id: "education" },
     { label: "Projects", id: "projects" },
     { label: "Contact", id: "contact" },
   ];
