@@ -38,10 +38,11 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { label: "Work", id: "work", index: "01" },
-    { label: "Education", id: "education", index: "02" },
-    { label: "Projects", id: "projects", index: "03" },
-    { label: "Contact", id: "contact", index: "04" },
+    { label: "Skills", id: "skills", index: "01" },
+    { label: "Work", id: "work", index: "02" },
+    { label: "Education", id: "education", index: "03" },
+    { label: "Projects", id: "projects", index: "04" },
+    { label: "Contact", id: "contact", index: "05" },
   ];
 
   // Mobile menu rendered via portal — completely outside <nav> stacking context
