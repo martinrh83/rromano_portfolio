@@ -94,35 +94,41 @@ export function Skills() {
         ease: "power3.out",
       });
 
-      // Animate each category group with stagger
+      // Animate each category group
       const groups = gsap.utils.toArray<HTMLElement>(".skill-category-group");
       groups.forEach((group, i) => {
-        // Animate the category label
-        gsap.from(group.querySelector(".skill-category-label"), {
+        const labelRow = group.querySelector(".skill-category-label-row");
+        const cards = group.querySelectorAll(".skill-card");
+
+        // Pre-hide before ScrollTrigger initializes — no flash
+        gsap.set(labelRow, { x: -16, opacity: 0 });
+        gsap.set(cards, { y: 40, opacity: 0 });
+
+        // Animate label row
+        gsap.to(labelRow, {
           scrollTrigger: {
             trigger: group,
             start: "top 88%",
             toggleActions: "play none none reverse",
           },
-          x: -20,
-          opacity: 0,
+          x: 0,
+          opacity: 1,
           duration: 0.6,
           delay: i * 0.05,
           ease: "power3.out",
         });
 
-        // Animate the cards in this group with stagger
-        const cards = group.querySelectorAll(".skill-card");
-        gsap.from(cards, {
+        // Animate cards with stagger
+        gsap.to(cards, {
           scrollTrigger: {
             trigger: group,
             start: "top 88%",
             toggleActions: "play none none reverse",
           },
-          y: 30,
-          opacity: 0,
-          duration: 0.5,
-          stagger: 0.06,
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.04,
           delay: i * 0.05 + 0.1,
           ease: "power3.out",
         });
