@@ -402,12 +402,12 @@ h1 {
   left: 0;
   width: 0;
   height: 1px;
-  background-color: var(--text-color);
+  background-color: var(--accent-200);
   transition: width 0.25s ease;
 }
 
 .navbar-link:hover {
-  opacity: 0.7;
+  color: var(--accent-200);
 }
 
 .navbar-link:hover::after {
