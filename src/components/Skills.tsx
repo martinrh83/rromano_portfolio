@@ -27,7 +27,8 @@ import {
 } from "react-icons/si";
 
 import { useTheme } from "../context/ThemeContext";
-import { type Skill,skillCategories } from "../data/skills";
+import { type Skill, skillCategories } from "../data/skills";
+import { GlowOrb } from "./GlowOrb";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -143,7 +144,10 @@ export function Skills() {
         <div className="skills-categories">
           {skillCategories.map((group) => (
             <div key={group.category} className="skill-category-group">
-              <span className="skill-category-label">{group.category}</span>
+              <div className="skill-category-label-row">
+                <GlowOrb size={9} />
+                <span className="skill-category-label">{group.category}</span>
+              </div>
               <div className="skill-cards-row">
                 {group.skills.map((skill) => (
                   <SkillCard key={skill.name} skill={skill} />

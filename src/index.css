@@ -34,6 +34,10 @@
   --grid-secondary: rgba(255, 255, 255, 0.03);
   --grid-accent: rgba(255, 255, 255, 0.15);
   --grid-noise: rgba(255, 255, 255, 0.015);
+  /* Accent colors */
+  --accent-100: #ef6f2e;
+  --accent-200: #ee6018;
+  --accent-300: #d15010;
 }
 
 /* Light mode theme */
@@ -1958,6 +1962,51 @@ h1 {
   opacity: 1;
 }
 
+/* ==================== GLOW ORB COMPONENT ==================== */
+
+@keyframes glow-orb-flicker {
+  /* 0–28% = ~1.4s solid wait before first blink */
+  0%,
+  28% {
+    opacity: 1;
+  }
+  /* Quick flicker sequence — dying bulb */
+  29% {
+    opacity: 0.1;
+  }
+  30% {
+    opacity: 1;
+  }
+  31% {
+    opacity: 0.15;
+  }
+  32% {
+    opacity: 1;
+  }
+  /* Longer drop — bulb struggling */
+  34% {
+    opacity: 0.05;
+  }
+  38% {
+    opacity: 1;
+  }
+  39% {
+    opacity: 0.05%;
+  }
+  /* Hold solid for the rest of the cycle */
+  42%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.glow-orb {
+  border-radius: 50%;
+  background-color: var(--accent-200);
+  flex-shrink: 0;
+  animation: glow-orb-flicker 4s ease-in-out infinite;
+}
+
 /* ==================== SKILLS SECTION ==================== */
 
 .skills-section {
@@ -1982,6 +2031,13 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* Label row — orb + text aligned */
+.skill-category-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* Category label — monospace, small-caps blueprint style */
