@@ -591,7 +591,7 @@ h1 {
     var(--accent-200) 0%,
     var(--accent-300) 10%,
     var(--accent-300) 75%,
-    transparent 83%
+    transparent 81%
   );
   /* box-shadow:
     0 0 12px rgba(239, 111, 46, 0.5),
@@ -638,6 +638,7 @@ h1 {
 .timeline-item-left .timeline-card {
   grid-column: 1;
   text-align: right;
+  align-self: start;
 }
 
 .timeline-item-right .timeline-card {
@@ -655,21 +656,24 @@ h1 {
 }
 
 .timeline-node {
-  grid-column: 2;
   width: 20px;
   height: 20px;
   background-color: var(--accent-100);
   border: 1px solid var(--accent-100);
   border-radius: 50%;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
   z-index: 10;
 }
 
 @media (max-width: 1024px) {
   .timeline-node {
-    grid-column: 1;
-    /* Vertically align node with the first line of the card title */
-    margin-top: 0.35rem;
+    /* Remove grid-column since node is now absolutely positioned */
+    left: 10px; /* Container padding (1.5rem) + half node width (10px) */
+    transform: translateX(-50%);
+    top: 0.35rem; /* Align with first line of card title */
   }
 }
 
