@@ -21,7 +21,7 @@
   --gradient: radial-gradient(circle, #e5e5e5 0%, #fff 100%);
 
   /* Theme variables - Dark mode (default)  1a1a1a*/
-  --bg-color: #1a1a1a;
+  --bg-color: #020202;
   --text-color: #f4f4f5;
 
   /* Typography - Geist Font System (Hyperbolic.ai) */
@@ -686,9 +686,9 @@ h1 {
 
 .timeline-card {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #101010;
   backdrop-filter: blur(8px);
-  border: 1px dashed var(--grid-primary);
+
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -840,8 +840,8 @@ h1 {
   padding: 2.5rem;
   backdrop-filter: blur(8px);
   /* Dashed border evokes a document/form aesthetic */
-  border: 1px dashed var(--grid-primary);
-  background-color: rgba(255, 255, 255, 0.05);
+  /* border: 1px solid var(--grid-primary); */
+  background-color: #101010;
   transition:
     transform 0.3s ease,
     border-color 0.3s ease,
@@ -2128,7 +2128,8 @@ h1 {
   padding: 0.5625rem 1rem;
   border: 1px solid var(--grid-primary);
   border-radius: 6px;
-  background: transparent;
+  background: #101010;
+  backdrop-filter: blur(8px);
   cursor: default;
   position: relative;
   transition:
@@ -2136,6 +2137,11 @@ h1 {
     background-color 0.25s ease,
     box-shadow 0.25s ease,
     transform 0.2s ease;
+}
+
+[data-theme="light"] .skill-card {
+  background-color: rgba(0, 0, 0, 0.02);
+  backdrop-filter: 8px;
 }
 
 .skill-card:hover {
