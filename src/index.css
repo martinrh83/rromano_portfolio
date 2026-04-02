@@ -564,7 +564,6 @@ h1 {
 .work-experience-section {
   position: relative;
   padding: 6rem 2rem;
-  border-top: 1px solid var(--grid-primary);
 }
 
 .work-experience-container {
@@ -589,12 +588,15 @@ h1 {
   width: 2px;
   background: linear-gradient(
     to bottom,
-    transparent,
-    var(--grid-primary) 10%,
-    var(--grid-primary) 90%,
-    transparent
+    var(--accent-200) 0%,
+    var(--accent-300) 10%,
+    var(--accent-300) 75%,
+    transparent 83%
   );
-  transform: translateX(-50%);
+  /* box-shadow:
+    0 0 12px rgba(239, 111, 46, 0.5),
+    0 0 24px rgba(239, 111, 46, 0.2);
+  transform: translateX(-50%); */
 }
 
 @media (max-width: 1024px) {
@@ -656,8 +658,8 @@ h1 {
   grid-column: 2;
   width: 20px;
   height: 20px;
-  background-color: var(--bg-color);
-  border: 3px solid var(--grid-accent);
+  background-color: var(--accent-100);
+  border: 1px solid var(--accent-100);
   border-radius: 50%;
   position: relative;
   z-index: 10;
@@ -674,7 +676,7 @@ h1 {
 .timeline-node-inner {
   width: 8px;
   height: 8px;
-  background-color: var(--grid-accent);
+  background-color: var(--accent-300);
   border-radius: 50%;
   position: absolute;
   top: 50%;

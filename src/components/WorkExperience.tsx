@@ -15,25 +15,45 @@ export function WorkExperience() {
 
   useGSAP(
     () => {
-      // Animate timeline line growing from top
-      gsap.from(timelineRef.current, {
+      gsap.from(".section-header", {
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: 1,
+          trigger: ".section-header",
+          start: "top 85%",
+          toggleActions: "play none none reverse",
         },
-        scaleY: 0,
-        transformOrigin: "top center",
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
       });
 
+      // Animate timeline line growing progressively with scroll
+      gsap.fromTo(
+        timelineRef.current,
+        {
+          scaleY: 0,
+          transformOrigin: "top center",
+        },
+        {
+          scaleY: 1,
+          ease: "none", // Linear for exact scroll synchronization
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 40%",
+            end: "bottom 90%",
+            scrub: 1,
+            markers: true, // TODO: Remove in production
+            id: "timeline-growth",
+          },
+        },
+      );
       // Animate timeline cards
       const cards = gsap.utils.toArray(".timeline-card");
       cards.forEach((card) => {
         gsap.from(card as HTMLElement, {
           scrollTrigger: {
             trigger: card as HTMLElement,
-            start: "top 85%",
+            start: "top 75%",
             toggleActions: "play none none reverse",
           },
           y: 50,
@@ -49,8 +69,9 @@ export function WorkExperience() {
         gsap.from(node as HTMLElement, {
           scrollTrigger: {
             trigger: node as HTMLElement,
-            start: "top 85%",
+            start: "top 60%",
             toggleActions: "play none none reverse",
+            markers: true,
           },
           scale: 0,
           opacity: 0,
