@@ -685,10 +685,12 @@ h1 {
 }
 
 .timeline-card {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--grid-primary);
-  border-radius: 0.75rem;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px dashed var(--grid-primary);
   padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -696,10 +698,50 @@ h1 {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
+/* Top-left corner bracket */
+.timeline-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--grid-accent);
+  border-left: 2px solid var(--grid-accent);
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Bottom-right corner bracket */
+.timeline-card::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--grid-accent);
+  border-right: 2px solid var(--grid-accent);
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    border-color 0.3s ease;
+}
+
 .timeline-card:hover {
   transform: translateY(-4px);
   border-color: var(--grid-accent);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Expand corner brackets on hover */
+.timeline-card:hover::before,
+.timeline-card:hover::after {
+  width: 32px;
+  height: 32px;
+  border-color: var(--accent-200);
 }
 
 .timeline-card-header {
@@ -733,7 +775,9 @@ h1 {
 .timeline-card-duration {
   font-family: var(--font-mono);
   font-size: 0.875rem;
-  opacity: 0.6;
+  letter-spacing: 0.02em;
+  opacity: 1;
+  color: var(--accent-300);
 }
 
 .timeline-card-description {
@@ -794,10 +838,10 @@ h1 {
   width: 100%;
   max-width: 600px;
   padding: 2.5rem;
+  backdrop-filter: blur(8px);
   /* Dashed border evokes a document/form aesthetic */
   border: 1px dashed var(--grid-primary);
-  border-radius: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(255, 255, 255, 0.05);
   transition:
     transform 0.3s ease,
     border-color 0.3s ease,
@@ -819,7 +863,6 @@ h1 {
   height: 20px;
   border-top: 2px solid var(--grid-accent);
   border-left: 2px solid var(--grid-accent);
-  border-radius: 2px 0 0 0;
   transition:
     width 0.3s ease,
     height 0.3s ease,
@@ -836,7 +879,6 @@ h1 {
   height: 20px;
   border-bottom: 2px solid var(--grid-accent);
   border-right: 2px solid var(--grid-accent);
-  border-radius: 0 0 2px 0;
   transition:
     width 0.3s ease,
     height 0.3s ease,
@@ -854,7 +896,7 @@ h1 {
 .education-card:hover::after {
   width: 32px;
   height: 32px;
-  border-color: var(--text-color);
+  border-color: var(--accent-200);
 }
 
 /* Inner wrapper for spacing */
@@ -885,9 +927,10 @@ h1 {
 
 .education-card-period {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  opacity: 0.5;
+  font-size: 0.875rem;
+  opacity: 1;
   letter-spacing: 0.02em;
+  color: var(--accent-300);
 }
 
 /* Animated divider */
@@ -935,9 +978,10 @@ h1 {
   font-weight: 600;
   letter-spacing: 0.05em;
   padding: 0.15em 0.4em;
-  border: 1px solid var(--grid-accent);
+  border: 1px solid var(--accent-300);
   border-radius: 0.2rem;
   opacity: 0.8;
+  color: var(--accent-300);
 }
 
 .education-card-country {
