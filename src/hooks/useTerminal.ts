@@ -13,17 +13,23 @@ interface ContactInfo {
 }
 
 const contactInfo: ContactInfo = {
-  email: "your.email@example.com",
-  github: "https://github.com/yourusername",
-  linkedin: "https://linkedin.com/in/yourusername",
-  twitter: "https://twitter.com/yourusername",
+  email: "martinrh83@gmail.com",
+  github: "https://github.com/martinrh83",
+  linkedin: "https://linkedin.com/in/martin-romano-dev",
 };
 
 export function useTerminal() {
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       type: "output",
-      text: "Welcome to the contact terminal! Type 'help' to see available commands.",
+      text: `
+Available commands:
+  email      - Show email address
+  github     - Open GitHub profile
+  linkedin   - Open LinkedIn profile
+  all        - Show all contact methods
+  clear      - Clear terminal
+            `.trim(),
     },
   ]);
   const [input, setInput] = useState("");
@@ -46,12 +52,8 @@ Available commands:
   email      - Show email address
   github     - Open GitHub profile
   linkedin   - Open LinkedIn profile
-  twitter    - Open Twitter/X profile
   all        - Show all contact methods
-  ls         - List available files
-  whoami     - Display information about me
   clear      - Clear terminal
-  help       - Show this help message
             `.trim(),
           },
         ]);
@@ -89,24 +91,6 @@ Available commands:
         ]);
         break;
 
-      case "twitter":
-        if (contactInfo.twitter) {
-          window.open(contactInfo.twitter, "_blank");
-          setLines((prev) => [
-            ...prev,
-            {
-              type: "output",
-              text: `🔗 Opening Twitter/X profile... ${contactInfo.twitter}`,
-            },
-          ]);
-        } else {
-          setLines((prev) => [
-            ...prev,
-            { type: "error", text: "Twitter profile not configured." },
-          ]);
-        }
-        break;
-
       case "all":
         setLines((prev) => [
           ...prev,
@@ -122,32 +106,20 @@ ${contactInfo.twitter ? `🔗 Twitter: ${contactInfo.twitter}` : ""}
         ]);
         break;
 
-      case "ls":
-        setLines((prev) => [
-          ...prev,
+      case "clear":
+        setLines(() => [
           {
             type: "output",
             text: `
-resume.pdf    portfolio/    projects/    skills.json
+Available commands:
+  email      - Show email address
+  github     - Open GitHub profile
+  linkedin   - Open LinkedIn profile
+  all        - Show all contact methods
+  clear      - Clear terminal
             `.trim(),
           },
         ]);
-        break;
-
-      case "whoami":
-        setLines((prev) => [
-          ...prev,
-          {
-            type: "output",
-            text: `Martin Romano - Full Stack Developer
-Building scalable web applications with modern technologies.
-Passionate about clean code and exceptional user experiences.`,
-          },
-        ]);
-        break;
-
-      case "clear":
-        setLines([]);
         break;
 
       case "":
@@ -159,7 +131,7 @@ Passionate about clean code and exceptional user experiences.`,
           ...prev,
           {
             type: "error",
-            text: `Command not found: ${trimmedCmd}. Type 'help' for available commands.`,
+            text: `Command not found: ${trimmedCmd}.`,
           },
         ]);
     }

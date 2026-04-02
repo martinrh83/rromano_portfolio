@@ -85,7 +85,7 @@ export function Contact() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="terminal-input"
-                placeholder="Type 'help' for commands..."
+                placeholder="Start"
                 autoComplete="off"
                 spellCheck={false}
               />
