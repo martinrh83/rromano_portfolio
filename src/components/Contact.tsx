@@ -22,6 +22,17 @@ export function Contact() {
 
   useGSAP(
     () => {
+      gsap.from(".section-header", {
+        scrollTrigger: {
+          trigger: ".section-header",
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+      });
       gsap.from(terminalRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
