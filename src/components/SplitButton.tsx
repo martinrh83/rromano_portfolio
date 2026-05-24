@@ -21,6 +21,7 @@ interface SplitButtonAsAnchor extends SplitButtonBaseProps {
   href: string;
   target?: string;
   rel?: string;
+  download?: string;
   type?: never;
   onClick?: never;
 }
@@ -56,6 +57,7 @@ export function SplitButton(props: SplitButtonProps) {
         href={props.href}
         target={props.target}
         rel={props.rel}
+        download={props.download}
         className={className}
       >
         {inner(label, icon, loading, loadingLabel)}

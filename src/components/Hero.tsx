@@ -130,8 +130,7 @@ export function Hero() {
             {/* Tertiary CTA */}
             <SplitButton
               href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              download="Martin_Romano_Resume"
               label="Resume"
               icon={<LuDownload />}
             />
