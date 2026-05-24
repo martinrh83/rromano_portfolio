@@ -1,8 +1,11 @@
 import { type ReactNode } from "react";
 
+type SplitButtonVariant = "solid" | "outline";
+
 interface SplitButtonBaseProps {
   label: string;
   icon?: ReactNode;
+  variant?: SplitButtonVariant;
   disabled?: boolean;
   loading?: boolean;
   loadingLabel?: string;
@@ -24,18 +27,28 @@ interface SplitButtonAsAnchor extends SplitButtonBaseProps {
 
 type SplitButtonProps = SplitButtonAsButton | SplitButtonAsAnchor;
 
-const inner = (label: string, icon: ReactNode, loading: boolean, loadingLabel?: string) => (
+const inner = (
+  label: string,
+  icon: ReactNode,
+  loading: boolean,
+  loadingLabel?: string,
+) => (
   <>
     <span className="split-btn-label">
       {loading && loadingLabel ? loadingLabel : label}
     </span>
     <span className="split-btn-divider" aria-hidden="true" />
-    <span className="split-btn-arrow" aria-hidden="true">{icon ?? "→"}</span>
+    <span className="split-btn-arrow" aria-hidden="true">
+      {icon ?? "→"}
+    </span>
   </>
 );
 
 export function SplitButton(props: SplitButtonProps) {
-  const { label, icon, loading = false, loadingLabel } = props;
+  const { label, icon, variant = "solid", loading = false, loadingLabel } =
+    props;
+
+  const className = `split-btn${variant === "outline" ? " split-btn-outline" : ""}`;
 
   if (props.href) {
     return (
@@ -43,7 +56,7 @@ export function SplitButton(props: SplitButtonProps) {
         href={props.href}
         target={props.target}
         rel={props.rel}
-        className="split-btn"
+        className={className}
       >
         {inner(label, icon, loading, loadingLabel)}
       </a>
@@ -55,7 +68,7 @@ export function SplitButton(props: SplitButtonProps) {
       type={props.type ?? "button"}
       disabled={props.disabled || loading}
       onClick={props.onClick}
-      className="split-btn"
+      className={className}
     >
       {inner(label, icon, loading, loadingLabel)}
     </button>

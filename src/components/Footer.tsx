@@ -2,6 +2,7 @@ import { FiGithub, FiLinkedin, FiMail, FiTwitter } from "react-icons/fi";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 
 import { useTheme } from "../context/ThemeContext";
+import { SplitButton } from "./SplitButton";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -79,13 +80,12 @@ export function Footer() {
 
         {/* Right: Back to Top */}
         <div className="footer-section footer-back-to-top">
-          <button
+          <SplitButton
+            label="Back to Top"
+            icon="↑"
+            variant="outline"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="footer-back-to-top-button"
-          >
-            <span>Back to Top</span>
-            <span className="footer-back-to-top-arrow">↑</span>
-          </button>
+          />
         </div>
       </div>
     </footer>

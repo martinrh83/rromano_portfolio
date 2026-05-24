@@ -1718,6 +1718,28 @@ h1 {
   cursor: not-allowed;
 }
 
+/* Outline variant */
+.split-btn-outline {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--grid-accent);
+}
+
+.split-btn-outline .split-btn-divider {
+  background-color: var(--grid-accent);
+}
+
+.split-btn-outline:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: var(--grid-accent);
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .split-btn-outline:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 .contact-submit-row {
   display: flex;
   justify-content: flex-end;
