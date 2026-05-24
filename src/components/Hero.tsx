@@ -1,6 +1,9 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useRef } from "react";
+import { LuDownload } from "react-icons/lu";
+
+import { SplitButton } from "./SplitButton";
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -123,15 +126,13 @@ export function Hero() {
           </a>
 
           {/* Tertiary CTA */}
-          <a
+          <SplitButton
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hero-cta-tertiary group"
-          >
-            <span className="relative z-10">Resume</span>
-            <span className="hero-cta-arrow">→</span>
-          </a>
+            label="Resume"
+            icon={<LuDownload />}
+          />
         </div>
       </div>
     </section>

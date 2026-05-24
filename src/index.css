@@ -1694,9 +1694,11 @@ h1 {
 }
 
 .split-btn-arrow {
+  display: flex;
+  align-items: center;
   padding: 0.8rem 1.1rem;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  font-size: 1rem;
 }
 
 .split-btn:hover:not(:disabled) {
@@ -1705,9 +1707,6 @@ h1 {
   box-shadow: 0 6px 20px rgba(239, 111, 46, 0.4);
 }
 
-.split-btn:hover:not(:disabled) .split-btn-arrow {
-  transform: translateX(3px);
-}
 
 .split-btn:active:not(:disabled) {
   transform: translateY(0);
