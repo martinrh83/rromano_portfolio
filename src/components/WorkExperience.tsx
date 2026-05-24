@@ -42,7 +42,7 @@ export function WorkExperience() {
             start: "top 40%",
             end: "bottom 90%",
             scrub: 1,
-            markers: true, // TODO: Remove in production
+            markers: false,
             id: "timeline-growth",
           },
         },
@@ -71,7 +71,7 @@ export function WorkExperience() {
             trigger: node as HTMLElement,
             start: "top 60%",
             toggleActions: "play none none reverse",
-            markers: true,
+            markers: false,
           },
           scale: 0,
           opacity: 0,
