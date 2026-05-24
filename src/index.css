@@ -1660,6 +1660,75 @@ h1 {
   transform: translateX(4px);
 }
 
+/* Split button — pill CTA with label | → divider */
+.split-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--accent-100);
+  color: rgba(0, 0, 0, 0.85);
+  border: none;
+  border-radius: 9999px;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.split-btn-label {
+  padding: 0.8rem 1.25rem;
+}
+
+.split-btn-divider {
+  width: 1px;
+  height: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.split-btn-arrow {
+  padding: 0.8rem 1.1rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.split-btn:hover:not(:disabled) {
+  background-color: var(--accent-200);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(239, 111, 46, 0.4);
+}
+
+.split-btn:hover:not(:disabled) .split-btn-arrow {
+  transform: translateX(3px);
+}
+
+.split-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.split-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.contact-submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+.contact-submit-row .split-btn {
+  min-width: 11rem;
+}
+
 /* Success state */
 .contact-success {
   display: flex;

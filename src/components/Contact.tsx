@@ -11,6 +11,7 @@ import { SiGithub } from "react-icons/si";
 import { z } from "zod";
 
 import { useTerminal } from "../hooks/useTerminal";
+import { SplitButton } from "./SplitButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -237,20 +238,14 @@ export function Contact() {
                   </p>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="contact-submit"
-                >
-                  {status === "submitting" ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      Send message{" "}
-                      <span className="contact-submit-arrow">→</span>
-                    </>
-                  )}
-                </button>
+                <div className="contact-submit-row">
+                  <SplitButton
+                    type="submit"
+                    label="Send message"
+                    loading={status === "submitting"}
+                    loadingLabel="Sending..."
+                  />
+                </div>
               </form>
             )}
           </div>
