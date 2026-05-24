@@ -357,6 +357,17 @@ h1 {
   }
 }
 
+@media (min-width: 1024px) {
+  .hero-description {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero-cta-container {
+    justify-content: flex-start;
+  }
+}
+
 /* ==================== NAVBAR ==================== */
 
 .navbar {

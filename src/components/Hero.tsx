@@ -93,47 +93,53 @@ export function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-20"
     >
-      <div className="max-w-6xl mx-auto w-full text-center">
-        {/* Main Title */}
-        <h1 ref={titleRef} className="hero-title opacity-0">
-          Martin Romano
-        </h1>
+      <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        {/* Left column */}
+        <div className="text-center lg:text-left">
+          {/* Main Title */}
+          <h1 ref={titleRef} className="hero-title opacity-0">
+            Martin Romano
+          </h1>
 
-        {/* Subtitle */}
-        <p ref={subtitleRef} className="hero-subtitle opacity-0">
-          Full Stack Developer
-        </p>
+          {/* Subtitle */}
+          <p ref={subtitleRef} className="hero-subtitle opacity-0">
+            Full Stack Developer
+          </p>
 
-        {/* Description */}
-        <p ref={descriptionRef} className="hero-description opacity-0">
-          Building scalable web applications with{" "}
-          <span className="tech-keyword">React</span>,{" "}
-          <span className="tech-keyword">TypeScript</span>, and modern
-          technologies. Passionate about clean code and exceptional user
-          experiences.
-        </p>
+          {/* Description */}
+          <p ref={descriptionRef} className="hero-description opacity-0">
+            Building scalable web applications with{" "}
+            <span className="tech-keyword">React</span>,{" "}
+            <span className="tech-keyword">TypeScript</span>, and modern
+            technologies. Passionate about clean code and exceptional user
+            experiences.
+          </p>
 
-        {/* CTA Buttons */}
-        <div ref={ctaRef} className="hero-cta-container">
-          {/* Primary CTA */}
-          <a href="#projects" className="hero-cta-primary">
-            <span className="relative z-10">View My Work</span>
-          </a>
+          {/* CTA Buttons */}
+          <div ref={ctaRef} className="hero-cta-container">
+            {/* Primary CTA */}
+            <a href="#projects" className="hero-cta-primary">
+              <span className="relative z-10">View My Work</span>
+            </a>
 
-          {/* Secondary CTA */}
-          <a href="#contact" className="hero-cta-secondary">
-            <span className="relative z-10">Lets Connect</span>
-          </a>
+            {/* Secondary CTA */}
+            <a href="#contact" className="hero-cta-secondary">
+              <span className="relative z-10">Lets Connect</span>
+            </a>
 
-          {/* Tertiary CTA */}
-          <SplitButton
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            label="Resume"
-            icon={<LuDownload />}
-          />
+            {/* Tertiary CTA */}
+            <SplitButton
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              label="Resume"
+              icon={<LuDownload />}
+            />
+          </div>
         </div>
+
+        {/* Right column — visual element goes here */}
+        <div className="hidden lg:flex items-center justify-center" />
       </div>
     </section>
   );
