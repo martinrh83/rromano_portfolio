@@ -1,3 +1,4 @@
+import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Education } from "./components/Education";
 import { Footer } from "./components/Footer";
@@ -16,6 +17,7 @@ function App() {
       {/* Main Content */}
       <main>
         <Hero />
+        <About />
         <Skills />
         <WorkExperience />
         <Education />

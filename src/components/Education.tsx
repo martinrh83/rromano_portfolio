@@ -37,19 +37,6 @@ export function Education() {
         stagger: 0.15,
         ease: "power3.out",
       });
-
-      gsap.from(".education-card-divider", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-        scaleX: 0,
-        transformOrigin: "left center",
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power2.out",
-      });
     },
     { scope: sectionRef },
   );
@@ -57,21 +44,33 @@ export function Education() {
   return (
     <section ref={sectionRef} id="education" className="education-section">
       <div className="education-container">
-        {/* Section Header */}
         <div className="section-header">
-          <h2 className="section-title">Education</h2>
+          <div>
+            <span className="section-index">05 / Education</span>
+            <h2 className="section-title">The foundation</h2>
+          </div>
           <p className="section-subtitle">
-            The academic foundation behind the craft
+            Where the theory came from. The rest was the internet, late nights,
+            and countless extra hours.
           </p>
         </div>
 
-        {/* Cards grid — centered if single, grid if multiple */}
-        <div
-          className={`education-grid ${educationHistory.length === 1 ? "education-grid-single" : ""}`}
-        >
-          {educationHistory.map((edu, i) => (
-            <EducationCard key={i} education={edu} />
-          ))}
+        {educationHistory.map((edu, i) => (
+          <EducationCard key={i} education={edu} />
+        ))}
+
+        <div className="cert-block">
+          <div className="cert-label">// Certifications</div>
+          <div className="education-card cert-card">
+            <div className="edu-mono">EN</div>
+            <div>
+              <div className="edu-degree">IELTS · English Proficiency</div>
+              <div className="edu-school">
+                British Council <span className="flag">· C1</span>
+              </div>
+            </div>
+            <div className="edu-period">7.0 Overall · 2022</div>
+          </div>
         </div>
       </div>
     </section>

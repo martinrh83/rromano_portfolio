@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-
+design_handoff_portfolio_redesign
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -19,6 +19,6 @@ dist-ssr
 .DS_Store
 *.suo
 *.ntvs*
-*.njsproj
+*.njspro
 *.sln
 *.sw?

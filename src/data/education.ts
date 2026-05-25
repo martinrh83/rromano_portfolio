@@ -4,16 +4,18 @@ export interface Education {
   country: string;
   countryCode: string;
   period: string;
+  mono?: string;
   description?: string;
   highlights?: string[];
 }
 
 export const educationHistory: Education[] = [
   {
-    degree: "Bachelor of Software Engineering",
-    institution: "Universidad Nacional",
+    degree: "Information Systems Engineering",
+    institution: "Universidad Tecnológica Nacional · FRT",
     country: "Argentina",
     countryCode: "AR",
-    period: "2018 – 2023",
+    period: "2020",
+    mono: "UTN",
   },
 ];

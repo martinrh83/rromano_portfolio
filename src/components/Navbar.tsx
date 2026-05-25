@@ -5,6 +5,7 @@ import { HiXMark } from "react-icons/hi2";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   // Handle scroll to add/remove scrolled state
   useEffect(() => {
@@ -38,12 +39,30 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { label: "Skills", id: "skills", index: "01" },
-    { label: "Work", id: "work", index: "02" },
-    { label: "Education", id: "education", index: "03" },
-    { label: "Projects", id: "projects", index: "04" },
-    { label: "Contact", id: "contact", index: "05" },
+    { label: "About", id: "about", index: "01" },
+    { label: "Skills", id: "skills", index: "02" },
+    { label: "Work", id: "work", index: "03" },
+    { label: "Education", id: "education", index: "04" },
+    { label: "Projects", id: "projects", index: "05" },
+    { label: "Contact", id: "contact", index: "06" },
   ];
+
+  // Scroll-spy: highlight the section currently in view
+  useEffect(() => {
+    const detect = () => {
+      const offset = window.scrollY + window.innerHeight * 0.35;
+      for (let i = navLinks.length - 1; i >= 0; i--) {
+        const el = document.getElementById(navLinks[i].id);
+        if (el && el.offsetTop <= offset) {
+          setActiveSection(navLinks[i].id);
+          return;
+        }
+      }
+    };
+    detect();
+    window.addEventListener("scroll", detect, { passive: true });
+    return () => window.removeEventListener("scroll", detect);
+  }, []);
 
   // Mobile menu rendered via portal — completely outside <nav> stacking context
   const mobileMenu = createPortal(
@@ -62,7 +81,7 @@ export function Navbar() {
           <li key={link.id}>
             <button
               onClick={() => scrollToSection(link.id)}
-              className="navbar-link-mobile"
+              className={`navbar-link-mobile${activeSection === link.id ? " active" : ""}`}
             >
               <span className="navbar-link-index">{link.index}</span>
               {link.label}
@@ -84,7 +103,7 @@ export function Navbar() {
               <li key={link.id}>
                 <button
                   onClick={() => scrollToSection(link.id)}
-                  className="navbar-link"
+                  className={`navbar-link${activeSection === link.id ? " active" : ""}`}
                 >
                   {link.label}
                 </button>

@@ -3,14 +3,14 @@ import { useGSAP } from "@gsap/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaLinkedinIn } from "react-icons/fa";
+import { LuArrowUpRight } from "react-icons/lu";
 import { MdEmail } from "react-icons/md";
 import { SiGithub } from "react-icons/si";
 import { z } from "zod";
 
-import { useTerminal } from "../hooks/useTerminal";
 import { SplitButton } from "./SplitButton";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
+  subject: z.string().min(2, "Subject must be at least 2 characters"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -28,10 +29,7 @@ export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
-  const outputRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<FormStatus>("idle");
-  const [showTerminal, setShowTerminal] = useState(false);
-  const { lines, input, setInput, handleSubmit: handleTerminalSubmit } = useTerminal();
 
   const {
     register,
@@ -42,17 +40,11 @@ export function Contact() {
     resolver: zodResolver(contactSchema),
   });
 
-  useEffect(() => {
-    if (outputRef.current) {
-      outputRef.current.scrollTop = outputRef.current.scrollHeight;
-    }
-  }, [lines]);
-
   useGSAP(
     () => {
-      gsap.from(".section-header", {
+      gsap.from(".contact-section .section-header", {
         scrollTrigger: {
-          trigger: ".section-header",
+          trigger: ".contact-section .section-header",
           start: "top 85%",
           toggleActions: "play none none reverse",
         },
@@ -98,6 +90,7 @@ export function Contact() {
         {
           from_name: data.name,
           from_email: data.email,
+          subject: data.subject,
           message: data.message,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
@@ -113,38 +106,37 @@ export function Contact() {
     <section ref={sectionRef} id="contact" className="contact-section">
       <div className="contact-container">
         <div className="section-header">
-          <h2 className="section-title">Get In Touch</h2>
+          <div>
+            <span className="section-index">06 / Contact</span>
+            <h2 className="section-title">Get In Touch</h2>
+          </div>
           <p className="section-subtitle">
-            Have a project in mind or just want to say hello?
+            Let's build something that matters.
           </p>
         </div>
 
         <div className="contact-layout">
-          {/* Left: pitch + social links */}
+          {/* Left: availability + pitch + contact links */}
           <div ref={leftRef} className="contact-left">
-            <h3 className="contact-heading">Let&apos;s build something.</h3>
             <div className="contact-availability">
               <span className="availability-dot" />
               <span>Open to opportunities</span>
             </div>
+            <h3 className="contact-heading">
+              Have an idea?<br />Let&apos;s <em>talk.</em>
+            </h3>
             <p className="contact-description">
-              I&apos;m a full stack developer based in Buenos Aires. I&apos;m
-              always open to discussing new projects, creative ideas, or
+              I&apos;m always open to discussing new projects, creative ideas, or
               opportunities to be part of your vision.
             </p>
             <div className="contact-links">
               <a href="mailto:martinrh83@gmail.com" className="contact-link">
-                <MdEmail className="contact-link-icon" />
-                <span>martinrh83@gmail.com</span>
-              </a>
-              <a
-                href="https://github.com/martinrh83"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link"
-              >
-                <SiGithub className="contact-link-icon" />
-                <span>github.com/martinrh83</span>
+                <span className="contact-link-icon-box"><MdEmail /></span>
+                <span className="contact-link-content">
+                  <span className="contact-link-label">Email</span>
+                  <span className="contact-link-val">martinrh83@gmail.com</span>
+                </span>
+                <LuArrowUpRight className="contact-link-arrow" />
               </a>
               <a
                 href="https://linkedin.com/in/martin-romano-dev"
@@ -152,14 +144,40 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="contact-link"
               >
-                <FaLinkedinIn className="contact-link-icon" />
-                <span>linkedin.com/in/martin-romano-dev</span>
+                <span className="contact-link-icon-box"><FaLinkedinIn /></span>
+                <span className="contact-link-content">
+                  <span className="contact-link-label">LinkedIn</span>
+                  <span className="contact-link-val">linkedin.com/in/martin-romano-dev</span>
+                </span>
+                <LuArrowUpRight className="contact-link-arrow" />
+              </a>
+              <a
+                href="https://github.com/martinrh83"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-link"
+              >
+                <span className="contact-link-icon-box"><SiGithub /></span>
+                <span className="contact-link-content">
+                  <span className="contact-link-label">GitHub</span>
+                  <span className="contact-link-val">github.com/martinrh83</span>
+                </span>
+                <LuArrowUpRight className="contact-link-arrow" />
               </a>
             </div>
           </div>
 
-          {/* Right: contact form */}
+          {/* Right: form card */}
           <div ref={rightRef} className="contact-right">
+            {/* Panel header */}
+            <div className="contact-panel-head">
+              <div className="contact-panel-head-left">
+                <span className="contact-panel-icon">✉</span>
+                <span className="contact-panel-label">Send a message</span>
+              </div>
+              <span className="contact-panel-meta">~24h response</span>
+            </div>
+
             {status === "success" ? (
               <div className="contact-success">
                 <div className="contact-success-icon">✓</div>
@@ -180,40 +198,65 @@ export function Contact() {
                 className="contact-form"
                 noValidate
               >
-                <div className="contact-field">
-                  <label className="contact-label" htmlFor="cf-name">
-                    Name
-                  </label>
-                  <input
-                    id="cf-name"
-                    type="text"
-                    className={`contact-input${errors.name ? " contact-input-error" : ""}`}
-                    placeholder="Your name"
-                    {...register("name")}
-                  />
-                  {errors.name && (
-                    <span className="contact-error">{errors.name.message}</span>
-                  )}
+                {/* Name + Email row */}
+                <div className="form-row">
+                  <div className="contact-field">
+                    <label className="contact-label" htmlFor="cf-name">
+                      Name
+                    </label>
+                    <input
+                      id="cf-name"
+                      type="text"
+                      className={`contact-input${errors.name ? " contact-input-error" : ""}`}
+                      placeholder="Your name"
+                      {...register("name")}
+                    />
+                    {errors.name && (
+                      <span className="contact-error">
+                        {errors.name.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="contact-field">
+                    <label className="contact-label" htmlFor="cf-email">
+                      Email
+                    </label>
+                    <input
+                      id="cf-email"
+                      type="email"
+                      className={`contact-input${errors.email ? " contact-input-error" : ""}`}
+                      placeholder="your@email.com"
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <span className="contact-error">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
+                {/* Subject */}
                 <div className="contact-field">
-                  <label className="contact-label" htmlFor="cf-email">
-                    Email
+                  <label className="contact-label" htmlFor="cf-subject">
+                    Subject
                   </label>
                   <input
-                    id="cf-email"
-                    type="email"
-                    className={`contact-input${errors.email ? " contact-input-error" : ""}`}
-                    placeholder="your@email.com"
-                    {...register("email")}
+                    id="cf-subject"
+                    type="text"
+                    className={`contact-input${errors.subject ? " contact-input-error" : ""}`}
+                    placeholder="What's this about?"
+                    {...register("subject")}
                   />
-                  {errors.email && (
+                  {errors.subject && (
                     <span className="contact-error">
-                      {errors.email.message}
+                      {errors.subject.message}
                     </span>
                   )}
                 </div>
 
+                {/* Message */}
                 <div className="contact-field">
                   <label className="contact-label" htmlFor="cf-message">
                     Message
@@ -250,60 +293,6 @@ export function Contact() {
             )}
           </div>
         </div>
-
-        {/* Terminal easter egg */}
-        <div className="contact-terminal-toggle">
-          <button
-            className="terminal-toggle-btn"
-            onClick={() => setShowTerminal((v) => !v)}
-          >
-            {showTerminal ? "hide terminal ↑" : "prefer the terminal? →"}
-          </button>
-        </div>
-
-        {showTerminal && (
-          <div className="terminal">
-            <div className="terminal-header">
-              <div className="terminal-buttons">
-                <span className="terminal-button terminal-button-close" />
-                <span className="terminal-button terminal-button-minimize" />
-                <span className="terminal-button terminal-button-maximize" />
-              </div>
-              <div className="terminal-title">contact@terminal ~ zsh</div>
-            </div>
-            <div className="terminal-body">
-              <div ref={outputRef} className="terminal-output">
-                {lines.map((line, index) => (
-                  <div
-                    key={index}
-                    className={`terminal-line terminal-line-${line.type}`}
-                  >
-                    {line.text}
-                  </div>
-                ))}
-              </div>
-              <form
-                onSubmit={handleTerminalSubmit}
-                className="terminal-input-form"
-              >
-                <label className="terminal-prompt" htmlFor="terminal-input">
-                  $
-                </label>
-                <input
-                  id="terminal-input"
-                  name="terminal"
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="terminal-input"
-                  placeholder="Type a command..."
-                  autoComplete="off"
-                  spellCheck={false}
-                />
-              </form>
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

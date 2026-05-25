@@ -88,7 +88,10 @@ export function WorkExperience() {
       <div className="work-experience-container">
         {/* Section Header */}
         <div className="section-header">
-          <h2 className="section-title">Work Experience</h2>
+          <div>
+            <span className="section-index">03 / Work</span>
+            <h2 className="section-title">Work Experience</h2>
+          </div>
           <p className="section-subtitle">
             Building products and leading teams across the tech stack
           </p>

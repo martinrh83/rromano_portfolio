@@ -6,6 +6,7 @@ export interface Project {
   liveUrl?: string;
   githubUrl?: string;
   featured?: boolean;
+  category: "Full-Stack" | "Frontend" | "Mobile";
 }
 
 export const projects: Project[] = [
@@ -26,6 +27,7 @@ export const projects: Project[] = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/username/ecommerce",
     featured: true,
+    category: "Full-Stack",
   },
   {
     title: "Task Management App",
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     techStack: ["React", "Firebase", "Material-UI", "Redux"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/username/taskapp",
+    category: "Frontend",
   },
   {
     title: "Weather Dashboard",
@@ -46,6 +49,7 @@ export const projects: Project[] = [
     techStack: ["React", "OpenWeather API", "Chart.js", "Tailwind CSS"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/username/weather",
+    category: "Frontend",
   },
   {
     title: "Developer Portfolio",
@@ -55,6 +59,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
     techStack: ["React", "Vite", "GSAP", "TypeScript"],
     githubUrl: "https://github.com/username/portfolio",
+    category: "Frontend",
   },
   {
     title: "Blog CMS",
@@ -65,6 +70,7 @@ export const projects: Project[] = [
     techStack: ["Next.js", "Sanity", "React Query", "Vercel"],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/username/blog-cms",
+    category: "Full-Stack",
   },
   {
     title: "Fitness Tracker",
@@ -74,5 +80,6 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&h=600&fit=crop",
     techStack: ["React Native", "Expo", "MongoDB", "Express"],
     githubUrl: "https://github.com/username/fitness",
+    category: "Mobile",
   },
 ];

@@ -2,76 +2,29 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import type { IconType } from "react-icons";
-import {
-  SiAngular,
-  SiDocker,
-  SiDrizzle,
-  SiExpress,
-  SiGit,
-  SiGithubactions,
-  SiGsap,
-  SiIonic,
-  SiJavascript,
-  SiMongodb,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPostgresql,
-  SiPrisma,
-  SiReact,
-  SiRedux,
-  SiSupabase,
-  SiTailwindcss,
-  SiTypescript,
-  SiVercel,
-} from "react-icons/si";
 
-import { useTheme } from "../context/ThemeContext";
-import { type Skill, skillCategories } from "../data/skills";
-import { GlowOrb } from "./GlowOrb";
+import { type Skill, focusSkills, skillCategories } from "#/data/skills";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const iconMap: Record<string, IconType> = {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiJavascript,
-  SiTailwindcss,
-  SiAngular,
-  SiIonic,
-  SiRedux,
-  SiGsap,
-  SiNodedotjs,
-  SiExpress,
-  SiPostgresql,
-  SiMongodb,
-  SiPrisma,
-  SiDrizzle,
-  SiSupabase,
-  SiGit,
-  SiDocker,
-  SiVercel,
-  SiGithubactions,
+const CATEGORY_CLASS: Record<string, string> = {
+  "Frontend": "bento-front",
+  "Backend": "bento-back",
+  "Tooling & DevOps": "bento-tools",
+  "AI": "bento-ai",
+  "Exploring": "bento-extras",
 };
 
-function SkillCard({ skill }: { skill: Skill }) {
-  const { theme } = useTheme();
-  const IconComponent = iconMap[skill.icon];
-  const color =
-    theme === "light" && skill.lightColor ? skill.lightColor : skill.color;
+function Chip({ skill }: { skill: Skill }) {
+  const tier = skill.tier ?? "secondary";
+  const glyph = skill.iconGlyph ?? skill.name.slice(0, 2).toUpperCase();
 
   return (
-    <div
-      className="skill-card"
-      style={{ "--skill-color": color } as React.CSSProperties}
-    >
-      {IconComponent && (
-        <span className="skill-icon">
-          <IconComponent />
-        </span>
-      )}
-      <span className="skill-name">{skill.name}</span>
+    <div className="chip">
+      <span className="chip-icon" data-tier={tier}>
+        {glyph}
+      </span>
+      <span>{skill.name}</span>
     </div>
   );
 }
@@ -81,7 +34,6 @@ export function Skills() {
 
   useGSAP(
     () => {
-      // Animate section header
       gsap.from(".skills-header", {
         scrollTrigger: {
           trigger: ".skills-header",
@@ -94,42 +46,19 @@ export function Skills() {
         ease: "power3.out",
       });
 
-      // Animate each category group
-      const groups = gsap.utils.toArray<HTMLElement>(".skill-category-group");
-      groups.forEach((group, i) => {
-        const labelRow = group.querySelector(".skill-category-label-row");
-        const cards = group.querySelectorAll(".skill-card");
-
-        // Pre-hide before ScrollTrigger initializes — no flash
-        gsap.set(labelRow, { x: -16, opacity: 0 });
-        gsap.set(cards, { y: 40, opacity: 0 });
-
-        // Animate label row
-        gsap.to(labelRow, {
+      const tiles = gsap.utils.toArray<HTMLElement>(".bento");
+      gsap.set(tiles, { y: 30, opacity: 0 });
+      tiles.forEach((tile, i) => {
+        gsap.to(tile, {
           scrollTrigger: {
-            trigger: group,
-            start: "top 88%",
-            toggleActions: "play none none reverse",
-          },
-          x: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay: i * 0.05,
-          ease: "power3.out",
-        });
-
-        // Animate cards with stagger
-        gsap.to(cards, {
-          scrollTrigger: {
-            trigger: group,
+            trigger: tile,
             start: "top 88%",
             toggleActions: "play none none reverse",
           },
           y: 0,
           opacity: 1,
           duration: 0.6,
-          stagger: 0.04,
-          delay: i * 0.05 + 0.1,
+          delay: i * 0.08,
           ease: "power3.out",
         });
       });
@@ -141,26 +70,60 @@ export function Skills() {
     <section ref={sectionRef} id="skills" className="skills-section">
       <div className="skills-container">
         <div className="section-header skills-header">
-          <h2 className="section-title">Skills</h2>
-          <p className="section-subtitle">
-            Technologies and tools I use to build products
-          </p>
+          <div>
+            <span className="section-index">02 / Skills</span>
+            <h2 className="section-title">Stack</h2>
+          </div>
+          <p className="section-subtitle">Tools I trust. Stack I think in.</p>
         </div>
 
-        <div className="skills-categories">
-          {skillCategories.map((group) => (
-            <div key={group.category} className="skill-category-group">
-              <div className="skill-category-label-row">
-                <GlowOrb size={9} />
-                <span className="skill-category-label">{group.category}</span>
-              </div>
-              <div className="skill-cards-row">
-                {group.skills.map((skill) => (
-                  <SkillCard key={skill.name} skill={skill} />
-                ))}
-              </div>
+        <div className="bento-grid">
+          {/* Focus tile */}
+          <div className="bento bento-focus">
+            <p className="bento-label">
+              <span className="bento-label-num">01</span> Primary Focus
+            </p>
+            <p className="bento-focus-title">
+              Building <em>AI-augmented</em> products end-to-end.
+            </p>
+            <p className="bento-focus-sub">
+              AI-assisted workflows on top of a solid full-stack foundation.
+            </p>
+            <div className="focus-bars">
+              {focusSkills.map((fs) => (
+                <div key={fs.name} className="focus-bar">
+                  <span className="focus-bar-name">{fs.name}</span>
+                  <div className="focus-bar-track">
+                    <div
+                      className="focus-bar-fill"
+                      style={{ width: `${fs.pct}%` }}
+                    />
+                  </div>
+                  <span className="focus-bar-pct">{fs.pct}%</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Stack tiles */}
+          {skillCategories.map((group, idx) => {
+            const tileClass = CATEGORY_CLASS[group.category] ?? "bento-front";
+            return (
+              <div key={group.category} className={`bento ${tileClass}`}>
+                <p className="bento-label">
+                  <span className="bento-label-num">
+                    {String(idx + 2).padStart(2, "0")}
+                  </span>{" "}
+                  {group.category}
+                </p>
+                <div className="bento-chips">
+                  {group.skills.map((skill) => (
+                    <Chip key={skill.name} skill={skill} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
