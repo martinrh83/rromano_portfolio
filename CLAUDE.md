@@ -15,6 +15,7 @@ npm run preview      # Preview production build
 ```
 
 Run a single test file:
+
 ```bash
 npx vitest run src/tests/App.test.tsx
 ```

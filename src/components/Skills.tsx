@@ -3,14 +3,14 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
-import { type Skill, focusSkills, skillCategories } from "#/data/skills";
+import { focusSkills, type Skill, skillCategories } from "#/data/skills";
 
 const CATEGORY_CLASS: Record<string, string> = {
-  "Frontend": "bento-front",
-  "Backend": "bento-back",
+  Frontend: "bento-front",
+  Backend: "bento-back",
   "Tooling & DevOps": "bento-tools",
-  "AI": "bento-ai",
-  "Exploring": "bento-extras",
+  AI: "bento-ai",
+  Exploring: "bento-extras",
 };
 
 function Chip({ skill }: { skill: Skill }) {

@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { useRef } from "react";
 
 import { projects } from "#/data/projects";
+
 import { FeaturedProject } from "./FeaturedProject";
 
 export function Projects() {

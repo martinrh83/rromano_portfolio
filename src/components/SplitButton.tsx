@@ -46,8 +46,13 @@ const inner = (
 );
 
 export function SplitButton(props: SplitButtonProps) {
-  const { label, icon, variant = "solid", loading = false, loadingLabel } =
-    props;
+  const {
+    label,
+    icon,
+    variant = "solid",
+    loading = false,
+    loadingLabel,
+  } = props;
 
   const className = `split-btn${variant === "outline" ? " split-btn-outline" : ""}`;
 
