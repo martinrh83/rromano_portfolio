@@ -85,7 +85,7 @@ export function Education() {
         ))}
 
         <div className="cert-block">
-          <div className="cert-label">// Certifications</div>
+          <div className="cert-label">{"// Certifications"}</div>
           <div className="education-card cert-card">
             <div className="edu-mono">EN</div>
             <div>

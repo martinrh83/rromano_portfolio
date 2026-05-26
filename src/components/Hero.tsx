@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { LuDownload } from "react-icons/lu";
 
 import { identity } from "#/data/identity";
+
 import { SplitButton } from "./SplitButton";
 
 export function Hero() {
@@ -76,7 +77,8 @@ export function Hero() {
 
           {/* Main Title */}
           <h1 ref={titleRef} className="hero-title">
-            Martin<br />
+            Martin
+            <br />
             <em className="hero-title-accent">Romano.</em>
           </h1>
 
@@ -89,9 +91,9 @@ export function Hero() {
           <p ref={descriptionRef} className="hero-description">
             I build scalable web applications with{" "}
             <span className="tech-keyword">React</span>,{" "}
-            <span className="tech-keyword">TypeScript</span>, and modern
-            tooling — quietly obsessed with clean code, sharp UX, and
-            shipping products that hold up at scale.
+            <span className="tech-keyword">TypeScript</span>, and modern tooling
+            — quietly obsessed with clean code, sharp UX, and shipping products
+            that hold up at scale.
           </p>
 
           {/* CTA */}
@@ -106,7 +108,10 @@ export function Hero() {
         </div>
 
         {/* Right column — identity card */}
-        <div ref={cardRef} className="hidden lg:flex items-center justify-center">
+        <div
+          ref={cardRef}
+          className="hidden lg:flex items-center justify-center"
+        >
           <div className="hv-card">
             <span className="hv-corner tl" />
             <span className="hv-corner tr" />
@@ -116,7 +121,7 @@ export function Hero() {
             <div className="hv-orb" />
 
             <div className="hv-head">
-              <span className="hv-head-label">// IDENTITY · v7.0</span>
+              <span className="hv-head-label">{"// IDENTITY · v7.0"}</span>
               <span className="hv-head-id">#0001</span>
             </div>
 

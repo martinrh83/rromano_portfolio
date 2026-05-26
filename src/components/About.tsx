@@ -86,8 +86,8 @@ export function About() {
               shipping behind a feature flag over big-bang rewrites.
             </p>
             <p>
-              Outside of work — mate, mountain biking, and an unhealthy
-              interest in keyboard layouts.
+              Outside of work — mate, mountain biking, and an unhealthy interest
+              in keyboard layouts.
             </p>
           </div>
 
@@ -98,7 +98,7 @@ export function About() {
               <span>Available for work</span>
             </div>
 
-            <p className="about-sidecard-label">// Vitals</p>
+            <p className="about-sidecard-label">{"// Vitals"}</p>
 
             <ul className="about-vitals">
               <li>

@@ -12,7 +12,6 @@ import { z } from "zod";
 
 import { SplitButton } from "./SplitButton";
 
-
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -120,7 +119,7 @@ export function Contact() {
             <h2 className="section-title">Get In Touch</h2>
           </div>
           <p className="section-subtitle">
-            Let's build something that matters.
+            Let&apos;s build something that matters.
           </p>
         </div>
 
@@ -132,15 +131,19 @@ export function Contact() {
               <span>Open to opportunities</span>
             </div>
             <h3 className="contact-heading">
-              Have an idea?<br />Let&apos;s <em>talk.</em>
+              Have an idea?
+              <br />
+              Let&apos;s <em>talk.</em>
             </h3>
             <p className="contact-description">
-              I&apos;m always open to discussing new projects, creative ideas, or
-              opportunities to be part of your vision.
+              I&apos;m always open to discussing new projects, creative ideas,
+              or opportunities to be part of your vision.
             </p>
             <div className="contact-links">
               <a href="mailto:martinrh83@gmail.com" className="contact-link">
-                <span className="contact-link-icon-box"><MdEmail /></span>
+                <span className="contact-link-icon-box">
+                  <MdEmail />
+                </span>
                 <span className="contact-link-content">
                   <span className="contact-link-label">Email</span>
                   <span className="contact-link-val">martinrh83@gmail.com</span>
@@ -153,10 +156,14 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="contact-link"
               >
-                <span className="contact-link-icon-box"><FaLinkedinIn /></span>
+                <span className="contact-link-icon-box">
+                  <FaLinkedinIn />
+                </span>
                 <span className="contact-link-content">
                   <span className="contact-link-label">LinkedIn</span>
-                  <span className="contact-link-val">linkedin.com/in/martin-romano-dev</span>
+                  <span className="contact-link-val">
+                    linkedin.com/in/martin-romano-dev
+                  </span>
                 </span>
                 <LuArrowUpRight className="contact-link-arrow" />
               </a>
@@ -166,10 +173,14 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="contact-link"
               >
-                <span className="contact-link-icon-box"><SiGithub /></span>
+                <span className="contact-link-icon-box">
+                  <SiGithub />
+                </span>
                 <span className="contact-link-content">
                   <span className="contact-link-label">GitHub</span>
-                  <span className="contact-link-val">github.com/martinrh83</span>
+                  <span className="contact-link-val">
+                    github.com/martinrh83
+                  </span>
                 </span>
                 <LuArrowUpRight className="contact-link-arrow" />
               </a>
