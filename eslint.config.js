@@ -11,7 +11,7 @@ import eslintConfigPrettier from "eslint-config-prettier/flat";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", ".claude/", ".agents/"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
