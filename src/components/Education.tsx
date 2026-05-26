@@ -1,42 +1,67 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
 import { educationHistory } from "../data/education";
 import { EducationCard } from "./EducationCard";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function Education() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      gsap.from(".section-header", {
-        scrollTrigger: {
-          trigger: ".section-header",
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+      const mm = gsap.matchMedia();
+      mm.add(
+        "(prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.from(".section-index, .section-title, .section-subtitle", {
+            scrollTrigger: {
+              trigger: ".section-header",
+              start: "top 85%",
+              once: true,
+            },
+            y: 20,
+            autoAlpha: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.08,
+          });
 
-      gsap.from(".education-card", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
+          gsap.set(".education-card:not(.cert-card), .cert-block", {
+            autoAlpha: 0,
+            y: 40,
+          });
+
+          const eduTrigger = {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            once: true,
+          };
+
+          gsap.to(".education-card:not(.cert-card)", {
+            scrollTrigger: eduTrigger,
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: "power3.out",
+          });
+
+          gsap.to(".cert-block", {
+            scrollTrigger: {
+              trigger: ".cert-block",
+              start: "top 85%",
+              once: true,
+            },
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          });
         },
-        y: 60,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
+        sectionRef.current!,
+      );
+      return () => mm.revert();
     },
     { scope: sectionRef },
   );

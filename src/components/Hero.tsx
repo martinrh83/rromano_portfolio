@@ -16,84 +16,45 @@ export function Hero() {
 
   useGSAP(
     () => {
-      // Create animation timeline with medium intensity (smooth & tasteful)
-      const tl = gsap.timeline({
-        defaults: {
-          ease: "power3.out",
-        },
-      });
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      // Animate title - bold entrance
-      tl.fromTo(
-        titleRef.current,
-        {
-          y: 40,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power4.out",
-        },
-      );
-
-      // Animate subtitle - follows naturally
-      tl.fromTo(
-        subtitleRef.current,
-        {
-          y: 30,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.0,
-        },
-        "-=0.9", // Overlap with previous animation
-      );
-
-      // Animate description - smooth fade in
-      tl.fromTo(
-        descriptionRef.current,
-        {
-          y: 20,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-        },
-        "-=0.7",
-      );
-
-      // Animate CTA buttons - staggered for polish
-      if (ctaRef.current) {
         tl.fromTo(
-          ctaRef.current.children,
-          {
-            y: 20,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
-          },
-          "-=0.5",
+          titleRef.current,
+          { y: 40, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 1.2, ease: "power4.out" },
         );
-      }
-
-      // Animate identity card — opacity starts at 0.001 (not 0) so the browser
-      // composites the element from frame 1, keeping backdrop-filter active throughout.
-      tl.fromTo(
-        cardRef.current,
-        { x: 30, opacity: 0.001 },
-        { x: 0, opacity: 1, duration: 1.0, ease: "power3.out" },
-        "-=0.7",
-      );
+        tl.fromTo(
+          subtitleRef.current,
+          { y: 30, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 1.0 },
+          "-=0.9",
+        );
+        tl.fromTo(
+          descriptionRef.current,
+          { y: 20, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.8 },
+          "-=0.7",
+        );
+        if (ctaRef.current) {
+          tl.fromTo(
+            ctaRef.current.children,
+            { y: 20, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1 },
+            "-=0.5",
+          );
+        }
+        // opacity starts at 0.001 (not 0) so the browser composites the element
+        // from frame 1, keeping backdrop-filter active throughout.
+        tl.fromTo(
+          cardRef.current,
+          { x: 30, opacity: 0.001 },
+          { x: 0, opacity: 1, duration: 1.0, ease: "power3.out" },
+          "-=0.7",
+        );
+      });
+      return () => mm.revert();
     },
     { scope: heroRef },
   );
@@ -114,18 +75,18 @@ export function Hero() {
           </p>
 
           {/* Main Title */}
-          <h1 ref={titleRef} className="hero-title opacity-0">
+          <h1 ref={titleRef} className="hero-title">
             Martin<br />
             <em className="hero-title-accent">Romano.</em>
           </h1>
 
           {/* Subline */}
-          <p ref={subtitleRef} className="hero-subline opacity-0">
+          <p ref={subtitleRef} className="hero-subline">
             Software Engineer
           </p>
 
           {/* Description */}
-          <p ref={descriptionRef} className="hero-description opacity-0">
+          <p ref={descriptionRef} className="hero-description">
             I build scalable web applications with{" "}
             <span className="tech-keyword">React</span>,{" "}
             <span className="tech-keyword">TypeScript</span>, and modern
@@ -145,7 +106,7 @@ export function Hero() {
         </div>
 
         {/* Right column — identity card */}
-        <div ref={cardRef} className="hidden lg:flex items-center justify-center opacity-0">
+        <div ref={cardRef} className="hidden lg:flex items-center justify-center">
           <div className="hv-card">
             <span className="hv-corner tl" />
             <span className="hv-corner tr" />

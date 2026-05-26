@@ -5,8 +5,6 @@ import { useRef } from "react";
 
 import { type Skill, focusSkills, skillCategories } from "#/data/skills";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const CATEGORY_CLASS: Record<string, string> = {
   "Frontend": "bento-front",
   "Backend": "bento-back",
@@ -34,34 +32,41 @@ export function Skills() {
 
   useGSAP(
     () => {
-      gsap.from(".skills-header", {
-        scrollTrigger: {
-          trigger: ".skills-header",
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
+      const mm = gsap.matchMedia();
+      mm.add(
+        "(prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.from(".section-index, .section-title, .section-subtitle", {
+            scrollTrigger: {
+              trigger: ".skills-header",
+              start: "top 85%",
+              once: true,
+            },
+            y: 20,
+            autoAlpha: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.08,
+          });
 
-      const tiles = gsap.utils.toArray<HTMLElement>(".bento");
-      gsap.set(tiles, { y: 30, opacity: 0 });
-      tiles.forEach((tile, i) => {
-        gsap.to(tile, {
-          scrollTrigger: {
-            trigger: tile,
+          gsap.set(".bento", { autoAlpha: 0, y: 25, scale: 0.95 });
+          ScrollTrigger.batch(".bento", {
+            onEnter: (elements) =>
+              gsap.to(elements, {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                stagger: { each: 0.08, from: "start" },
+                duration: 0.6,
+                ease: "power3.out",
+              }),
             start: "top 88%",
-            toggleActions: "play none none reverse",
-          },
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay: i * 0.08,
-          ease: "power3.out",
-        });
-      });
+            once: true,
+          });
+        },
+        sectionRef.current!,
+      );
+      return () => mm.revert();
     },
     { scope: sectionRef },
   );

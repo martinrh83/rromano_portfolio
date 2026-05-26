@@ -22,3 +22,10 @@ design_handoff_portfolio_redesign
 *.njspro
 *.sln
 *.sw?
+
+# Playwright-cli test artifacts
+.playwright-cli/
+/*.png
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json

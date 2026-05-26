@@ -1,12 +1,9 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
 import { projects } from "#/data/projects";
 import { FeaturedProject } from "./FeaturedProject";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -15,43 +12,55 @@ export function Projects() {
 
   useGSAP(
     () => {
-      gsap.from(".projects-section .section-header", {
-        scrollTrigger: {
-          trigger: ".projects-section .section-header",
-          start: "top 85%",
-          toggleActions: "play none none reverse",
+      const mm = gsap.matchMedia();
+      mm.add(
+        "(prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.from(".section-index, .section-title, .section-subtitle", {
+            scrollTrigger: {
+              trigger: ".section-header",
+              start: "top 85%",
+              once: true,
+            },
+            y: 20,
+            autoAlpha: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.08,
+          });
+
+          if (featuredProject) {
+            gsap.from(".fp-media", {
+              scrollTrigger: {
+                trigger: ".featured-project",
+                start: "top 80%",
+                once: true,
+              },
+              x: 20,
+              y: 15,
+              scale: 0.96,
+              autoAlpha: 0,
+              duration: 1,
+              ease: "power3.out",
+            });
+
+            gsap.from(".fp-content", {
+              scrollTrigger: {
+                trigger: ".featured-project",
+                start: "top 80%",
+                once: true,
+              },
+              x: -20,
+              y: 10,
+              autoAlpha: 0,
+              duration: 1,
+              ease: "power3.out",
+            });
+          }
         },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-
-      if (featuredProject) {
-        gsap.from(".fp-media", {
-          scrollTrigger: {
-            trigger: ".featured-project",
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-          x: 80,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
-        });
-
-        gsap.from(".fp-content", {
-          scrollTrigger: {
-            trigger: ".featured-project",
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-          x: -80,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
-        });
-      }
+        sectionRef.current!,
+      );
+      return () => mm.revert();
     },
     { scope: sectionRef },
   );
