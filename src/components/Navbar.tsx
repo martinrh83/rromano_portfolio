@@ -58,6 +58,8 @@ export function Navbar() {
           return;
         }
       }
+      // Above all nav sections (Hero area) — clear the active highlight
+      setActiveSection("");
     };
     detect();
     window.addEventListener("scroll", detect, { passive: true });
