@@ -36,6 +36,7 @@ export function Skills() {
       mm.add(
         "(prefers-reduced-motion: no-preference)",
         () => {
+          // Section header
           gsap.from(".section-index, .section-title, .section-subtitle", {
             scrollTrigger: {
               trigger: ".skills-header",
@@ -44,22 +45,66 @@ export function Skills() {
             },
             y: 20,
             autoAlpha: 0,
-            duration: 0.7,
+            duration: 0.65,
             ease: "power3.out",
-            stagger: 0.08,
+            stagger: 0.09,
           });
 
-          gsap.set(".bento", { autoAlpha: 0, y: 25, scale: 0.95 });
+          // Read focus bar target widths before GSAP touches them so we can
+          // restore them after Strict Mode cleanup reverts state.
+          const fills = Array.from(
+            sectionRef.current!.querySelectorAll<HTMLElement>(
+              ".focus-bar-fill",
+            ),
+          );
+          const targetWidths = fills.map((el) => el.style.width);
+
+          // Pre-hide tiles, chips, and bar fills
+          gsap.set(".bento", { autoAlpha: 0, y: 20, scale: 0.97 });
+          gsap.set(".chip", { autoAlpha: 0, y: 8 });
+          gsap.set(fills, { width: "0%" });
+
           ScrollTrigger.batch(".bento", {
-            onEnter: (elements) =>
+            onEnter: (elements) => {
+              // All tiles in the batch scale + fade in with a stagger
               gsap.to(elements, {
                 autoAlpha: 1,
                 y: 0,
                 scale: 1,
                 stagger: { each: 0.08, from: "start" },
-                duration: 0.6,
+                duration: 0.65,
                 ease: "power3.out",
-              }),
+              });
+
+              elements.forEach((el, batchIdx) => {
+                const tileDelay = 0.08 * batchIdx;
+
+                // Skill-category tiles: chips stagger in after their tile appears
+                const chips = el.querySelectorAll<HTMLElement>(".chip");
+                if (chips.length) {
+                  gsap.to(chips, {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.35,
+                    stagger: 0.04,
+                    ease: "power2.out",
+                    delay: 0.35 + tileDelay,
+                  });
+                }
+
+                // Focus tile: bars grow from 0 to their data value
+                if (el.classList.contains("bento-focus") && fills.length) {
+                  fills.forEach((fill, fillIdx) => {
+                    gsap.to(fill, {
+                      width: targetWidths[fillIdx],
+                      duration: 1.1,
+                      ease: "power3.out",
+                      delay: 0.5 + fillIdx * 0.12 + tileDelay,
+                    });
+                  });
+                }
+              });
+            },
             start: "top 88%",
             once: true,
           });
