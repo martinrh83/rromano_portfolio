@@ -229,10 +229,12 @@ export function Contact() {
                       type="text"
                       className={`contact-input${errors.name ? " contact-input-error" : ""}`}
                       placeholder="Your name"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "cf-name-error" : undefined}
                       {...register("name")}
                     />
                     {errors.name && (
-                      <span className="contact-error">
+                      <span id="cf-name-error" className="contact-error" role="alert">
                         {errors.name.message}
                       </span>
                     )}
@@ -247,10 +249,12 @@ export function Contact() {
                       type="email"
                       className={`contact-input${errors.email ? " contact-input-error" : ""}`}
                       placeholder="your@email.com"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "cf-email-error" : undefined}
                       {...register("email")}
                     />
                     {errors.email && (
-                      <span className="contact-error">
+                      <span id="cf-email-error" className="contact-error" role="alert">
                         {errors.email.message}
                       </span>
                     )}
@@ -267,10 +271,12 @@ export function Contact() {
                     type="text"
                     className={`contact-input${errors.subject ? " contact-input-error" : ""}`}
                     placeholder="What's this about?"
+                    aria-invalid={!!errors.subject}
+                    aria-describedby={errors.subject ? "cf-subject-error" : undefined}
                     {...register("subject")}
                   />
                   {errors.subject && (
-                    <span className="contact-error">
+                    <span id="cf-subject-error" className="contact-error" role="alert">
                       {errors.subject.message}
                     </span>
                   )}
@@ -286,17 +292,19 @@ export function Contact() {
                     rows={5}
                     className={`contact-input contact-textarea${errors.message ? " contact-input-error" : ""}`}
                     placeholder="Tell me about your project..."
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "cf-message-error" : undefined}
                     {...register("message")}
                   />
                   {errors.message && (
-                    <span className="contact-error">
+                    <span id="cf-message-error" className="contact-error" role="alert">
                       {errors.message.message}
                     </span>
                   )}
                 </div>
 
                 {status === "error" && (
-                  <p className="contact-error-global">
+                  <p className="contact-error-global" role="alert">
                     Something went wrong. Please try again.
                   </p>
                 )}

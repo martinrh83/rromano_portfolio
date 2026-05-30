@@ -71,7 +71,7 @@ export function Hero() {
         <div className="text-center lg:text-left">
           {/* Eyebrow */}
           <p className="hero-eyebrow">
-            <span className="hero-eyebrow-dot" />
+            <span className="hero-eyebrow-dot" aria-hidden="true" />
             Portfolio · 2026
           </p>
 
@@ -113,12 +113,12 @@ export function Hero() {
           className="hidden lg:flex items-center justify-center"
         >
           <div className="hv-card">
-            <span className="hv-corner tl" />
-            <span className="hv-corner tr" />
-            <span className="hv-corner bl" />
-            <span className="hv-corner br" />
+            <span className="hv-corner tl" aria-hidden="true" />
+            <span className="hv-corner tr" aria-hidden="true" />
+            <span className="hv-corner bl" aria-hidden="true" />
+            <span className="hv-corner br" aria-hidden="true" />
 
-            <div className="hv-orb" />
+            <div className="hv-orb" aria-hidden="true" />
 
             <div className="hv-head">
               <span className="hv-head-label">{"// IDENTITY · v7.0"}</span>
@@ -144,7 +144,7 @@ export function Hero() {
               </div>
             </dl>
 
-            <div className="hv-ticker">
+            <div className="hv-ticker" aria-hidden="true">
               <div className="hv-ticker-inner">
                 {[...identity.tickerItems, ...identity.tickerItems].map(
                   (item, i) => (
