@@ -1369,11 +1369,7 @@ h1 {
     box-shadow 0.3s ease;
 }
 
-@media (max-width: 640px) {
-  .education-card {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* Top-left corner bracket */
 .education-card::before {
@@ -1465,6 +1461,15 @@ h1 {
   color: var(--accent-100);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 550px) {
+  .edu-period {
+    display: none;
+  }
+  .education-card {
+    padding: 1rem;
+  }
 }
 
 .cert-block {
