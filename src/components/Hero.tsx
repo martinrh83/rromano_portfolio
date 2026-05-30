@@ -1,5 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { LuDownload } from "react-icons/lu";
 
@@ -23,8 +24,8 @@ export function Hero() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Set card perspective before timeline so it composites correctly from frame 1
-        gsap.set(cardRef.current, { transformPerspective: 800 });
+        // Promote card to its own compositor layer before any animation touches it
+        gsap.set(cardRef.current, { transformPerspective: 800, willChange: "transform" });
 
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -79,11 +80,11 @@ export function Hero() {
           "-=0.6",
         );
 
-        // 3. Description — blur-to-clear fade
+        // 3. Description — simple fade (no blur: animating filter forces repaint every frame)
         tl.fromTo(
           descriptionRef.current,
-          { autoAlpha: 0, filter: "blur(6px)" },
-          { autoAlpha: 1, filter: "blur(0px)", duration: 0.7 },
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.7 },
           "-=0.5",
         );
 
@@ -123,43 +124,62 @@ export function Hero() {
           );
         }
 
-        // 7. Card ambient float — starts after entrance completes
+        // 7. Card ambient float — paused when hero is off-screen so it doesn't
+        // hold a compositor layer active while other ScrollTriggers are running
         tl.eventCallback("onComplete", () => {
-          gsap.to(cardRef.current, {
+          const floatTween = gsap.to(cardRef.current, {
             y: -7,
             duration: 3.5,
             ease: "sine.inOut",
             yoyo: true,
             repeat: -1,
           });
+
+          ScrollTrigger.create({
+            trigger: heroRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            onEnter: () => floatTween.play(),
+            onLeave: () => floatTween.pause(),
+            onEnterBack: () => floatTween.play(),
+            onLeaveBack: () => floatTween.pause(),
+          });
         });
 
         // 8. Card mousemove tilt
+        // quickTo reuses one internal tween instead of creating a new one on
+        // every event. rAF gate caps update frequency to one per frame (~60 fps).
         const hero = heroRef.current!;
         const card = cardRef.current!;
 
+        const tiltX = gsap.quickTo(card, "rotateX", {
+          duration: 0.5,
+          ease: "power2.out",
+        });
+        const tiltY = gsap.quickTo(card, "rotateY", {
+          duration: 0.5,
+          ease: "power2.out",
+        });
+
+        let rafId: number | null = null;
+
         const onMove = (e: MouseEvent) => {
-          const r = card.getBoundingClientRect();
-          const rx =
-            ((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * -5;
-          const ry =
-            ((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 5;
-          gsap.to(card, {
-            rotateX: rx,
-            rotateY: ry,
-            duration: 0.5,
-            ease: "power2.out",
-            overwrite: "auto",
+          if (rafId !== null) return;
+          rafId = requestAnimationFrame(() => {
+            rafId = null;
+            const r = card.getBoundingClientRect();
+            tiltX(((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * -4);
+            tiltY(((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 4);
           });
         };
+
         const onLeave = () => {
-          gsap.to(card, {
-            rotateX: 0,
-            rotateY: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            overwrite: "auto",
-          });
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          tiltX(0);
+          tiltY(0);
         };
 
         hero.addEventListener("mousemove", onMove);
@@ -168,6 +188,7 @@ export function Hero() {
         return () => {
           hero.removeEventListener("mousemove", onMove);
           hero.removeEventListener("mouseleave", onLeave);
+          if (rafId !== null) cancelAnimationFrame(rafId);
         };
       });
       return () => mm.revert();
