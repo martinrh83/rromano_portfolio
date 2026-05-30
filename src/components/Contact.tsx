@@ -24,7 +24,6 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
-  const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<FormStatus>("idle");
 
@@ -43,6 +42,13 @@ export function Contact() {
       mm.add(
         "(prefers-reduced-motion: no-preference)",
         () => {
+          const contentTrigger = {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            once: true,
+          };
+
+          // Section header
           gsap.from(".section-index, .section-title, .section-subtitle", {
             scrollTrigger: {
               trigger: ".section-header",
@@ -51,35 +57,60 @@ export function Contact() {
             },
             y: 20,
             autoAlpha: 0,
-            duration: 0.7,
+            duration: 0.65,
             ease: "power3.out",
-            stagger: 0.08,
+            stagger: 0.09,
           });
 
-          gsap.from(leftRef.current, {
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              once: true,
+          // Left column — each element reveals in reading order:
+          // availability badge → heading → description → contact links
+          gsap.from(
+            ".contact-availability, .contact-heading, .contact-description, .contact-link",
+            {
+              scrollTrigger: contentTrigger,
+              x: -16,
+              autoAlpha: 0,
+              duration: 0.6,
+              stagger: 0.09,
+              ease: "power3.out",
             },
-            x: -30,
-            autoAlpha: 0,
-            duration: 0.9,
-            ease: "power3.out",
+          );
+
+          // Icon-boxes pop in 0.15 s after each link starts sliding in
+          // (3 left-column items × 0.09 s stagger = 0.27 s before link1 starts)
+          gsap.set(".contact-link-icon-box", { scale: 0 });
+          gsap.to(".contact-link-icon-box", {
+            scrollTrigger: contentTrigger,
+            scale: 1,
+            duration: 0.35,
+            stagger: 0.09,
+            ease: "back.out(1.5)",
+            delay: 0.42, // link1 at t=0.27 + 0.15 s offset
           });
 
-          // Form panel settles from above — more natural than a lateral slide
+          // Right panel — settles from above, panel header visible first
           gsap.from(rightRef.current, {
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              once: true,
-            },
-            y: 30,
-            scale: 0.98,
+            scrollTrigger: contentTrigger,
+            y: 25,
+            scale: 0.97,
             autoAlpha: 0,
-            duration: 0.9,
+            duration: 0.8,
             ease: "power3.out",
+          });
+
+          // Form fields stagger in after the panel is mostly settled
+          gsap.set(".contact-field, .contact-submit-row", {
+            autoAlpha: 0,
+            y: 10,
+          });
+          gsap.to(".contact-field, .contact-submit-row", {
+            scrollTrigger: contentTrigger,
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.08,
+            ease: "power2.out",
+            delay: 0.5,
           });
         },
         sectionRef.current!,
@@ -125,7 +156,7 @@ export function Contact() {
 
         <div className="contact-layout">
           {/* Left: availability + pitch + contact links */}
-          <div ref={leftRef} className="contact-left">
+          <div className="contact-left">
             <div className="contact-availability">
               <span className="availability-dot" />
               <span>Open to opportunities</span>
