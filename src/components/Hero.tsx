@@ -7,9 +7,13 @@ import { identity } from "#/data/identity";
 
 import { SplitButton } from "./SplitButton";
 
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -19,41 +23,152 @@ export function Hero() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Set card perspective before timeline so it composites correctly from frame 1
+        gsap.set(cardRef.current, { transformPerspective: 800 });
+
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-        tl.fromTo(
-          titleRef.current,
-          { y: 40, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 1.2, ease: "power4.out" },
+        // 1. Title — line-by-line upward reveal through overflow:hidden masks.
+        // Initial y:110% is set via CSS so elements are hidden before JS runs.
+        tl.to([line1Ref.current, line2Ref.current], {
+          y: "0%",
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power4.out",
+        });
+
+        // 2. Subtitle — character scramble / decode
+        // Hard-coded to avoid reading corrupted DOM state from React Strict Mode's
+        // double-invocation cleanup, which leaves textContent mid-scrambled.
+        const finalText = "Software Engineer";
+        if (subtitleRef.current) {
+          subtitleRef.current.textContent = finalText
+            .split("")
+            .map((c) =>
+              c === " " ? " " : CHARS[Math.floor(Math.random() * CHARS.length)],
+            )
+            .join("");
+        }
+        const obj = { p: 0 };
+        const sub = subtitleRef.current;
+        tl.to(
+          obj,
+          {
+            p: 1,
+            duration: 0.85,
+            ease: "power2.out",
+            onUpdate() {
+              if (!sub) return;
+              const n = Math.floor(obj.p * finalText.length);
+              sub.textContent =
+                finalText.slice(0, n) +
+                finalText
+                  .slice(n)
+                  .split("")
+                  .map((c) =>
+                    c === " "
+                      ? " "
+                      : CHARS[Math.floor(Math.random() * CHARS.length)],
+                  )
+                  .join("");
+            },
+            onComplete() {
+              if (sub) sub.textContent = finalText;
+            },
+          },
+          "-=0.6",
         );
-        tl.fromTo(
-          subtitleRef.current,
-          { y: 30, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 1.0 },
-          "-=0.9",
-        );
+
+        // 3. Description — blur-to-clear fade
         tl.fromTo(
           descriptionRef.current,
-          { y: 20, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.8 },
-          "-=0.7",
+          { autoAlpha: 0, filter: "blur(6px)" },
+          { autoAlpha: 1, filter: "blur(0px)", duration: 0.7 },
+          "-=0.5",
         );
+
+        // 4. CTA
         if (ctaRef.current) {
           tl.fromTo(
             ctaRef.current.children,
-            { y: 20, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1 },
-            "-=0.5",
+            { y: 15, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.08 },
+            "-=0.4",
           );
         }
+
+        // 5. Card — 3D perspective unflip entrance
         // opacity starts at 0.001 (not 0) so the browser composites the element
         // from frame 1, keeping backdrop-filter active throughout.
         tl.fromTo(
           cardRef.current,
-          { x: 30, opacity: 0.001 },
-          { x: 0, opacity: 1, duration: 1.0, ease: "power3.out" },
+          { rotateY: 12, x: 40, opacity: 0.001 },
+          { rotateY: 0, x: 0, opacity: 1, duration: 1.2, ease: "power3.out" },
           "-=0.7",
         );
+
+        // 6. Card corners — staggered pop-in
+        if (cardRef.current) {
+          tl.fromTo(
+            cardRef.current.querySelectorAll(".hv-corner"),
+            { scale: 0, autoAlpha: 0 },
+            {
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.35,
+              stagger: 0.07,
+              ease: "back.out(1.7)",
+            },
+            "-=0.2",
+          );
+        }
+
+        // 7. Card ambient float — starts after entrance completes
+        tl.eventCallback("onComplete", () => {
+          gsap.to(cardRef.current, {
+            y: -7,
+            duration: 3.5,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+          });
+        });
+
+        // 8. Card mousemove tilt
+        const hero = heroRef.current!;
+        const card = cardRef.current!;
+
+        const onMove = (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          const rx =
+            ((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * -5;
+          const ry =
+            ((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 5;
+          gsap.to(card, {
+            rotateX: rx,
+            rotateY: ry,
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        };
+        const onLeave = () => {
+          gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
+        };
+
+        hero.addEventListener("mousemove", onMove);
+        hero.addEventListener("mouseleave", onLeave);
+
+        return () => {
+          hero.removeEventListener("mousemove", onMove);
+          hero.removeEventListener("mouseleave", onLeave);
+        };
       });
       return () => mm.revert();
     },
@@ -75,11 +190,16 @@ export function Hero() {
             Portfolio · 2026
           </p>
 
-          {/* Main Title */}
+          {/* Main Title — each line masked for upward reveal */}
           <h1 ref={titleRef} className="hero-title">
-            Martin
-            <br />
-            <em className="hero-title-accent">Romano.</em>
+            <span className="title-line-mask">
+              <span ref={line1Ref}>Martin</span>
+            </span>
+            <span className="title-line-mask">
+              <em ref={line2Ref} className="hero-title-accent">
+                Romano.
+              </em>
+            </span>
           </h1>
 
           {/* Subline */}

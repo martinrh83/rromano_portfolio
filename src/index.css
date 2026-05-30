@@ -236,6 +236,23 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.title-line-mask {
+  display: block;
+  overflow: hidden;
+}
+
+.title-line-mask > span,
+.title-line-mask > em {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .title-line-mask > span,
+  .title-line-mask > em {
+    transform: translateY(110%);
+  }
+}
+
 .hero-title-accent {
   color: var(--accent-100);
   font-style: italic;
