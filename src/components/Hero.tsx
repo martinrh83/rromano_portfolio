@@ -147,19 +147,10 @@ export function Hero() {
         });
 
         // 8. Card mousemove tilt
-        // quickTo reuses one internal tween instead of creating a new one on
-        // every event. rAF gate caps update frequency to one per frame (~60 fps).
+        // rAF gate caps updates to one per frame (~60 fps max) so we never
+        // create more than one pending gsap.to() at a time.
         const hero = heroRef.current!;
         const card = cardRef.current!;
-
-        const tiltX = gsap.quickTo(card, "rotateX", {
-          duration: 0.5,
-          ease: "power2.out",
-        });
-        const tiltY = gsap.quickTo(card, "rotateY", {
-          duration: 0.5,
-          ease: "power2.out",
-        });
 
         let rafId: number | null = null;
 
@@ -168,8 +159,13 @@ export function Hero() {
           rafId = requestAnimationFrame(() => {
             rafId = null;
             const r = card.getBoundingClientRect();
-            tiltX(((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * -4);
-            tiltY(((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 4);
+            gsap.to(card, {
+              rotateX: ((e.clientY - (r.top + r.height / 2)) / (r.height / 2)) * -4,
+              rotateY: ((e.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 4,
+              duration: 0.4,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
           });
         };
 
@@ -178,8 +174,13 @@ export function Hero() {
             cancelAnimationFrame(rafId);
             rafId = null;
           }
-          tiltX(0);
-          tiltY(0);
+          gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
         };
 
         hero.addEventListener("mousemove", onMove);
