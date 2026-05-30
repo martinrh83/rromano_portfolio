@@ -65,7 +65,7 @@ export function WorkExperience() {
               rotation: 45,
               autoAlpha: 0,
               duration: 0.5,
-              ease: "back.out(1.7)",
+              ease: "power3.out",
             });
           });
         },
@@ -86,7 +86,7 @@ export function WorkExperience() {
             <h2 className="section-title">Work Experience</h2>
           </div>
           <p className="section-subtitle">
-            Building products and leading teams across the tech stack
+            The companies, the roles, and what actually shipped.
           </p>
         </div>
 

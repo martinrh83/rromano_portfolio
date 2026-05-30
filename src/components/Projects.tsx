@@ -71,7 +71,7 @@ export function Projects() {
       <div className="projects-container">
         <div className="section-header">
           <div>
-            <span className="section-index">04 / Projects</span>
+            <span className="section-index">05 / Projects</span>
             <h2 className="section-title">Selected work</h2>
           </div>
           <p className="section-subtitle">

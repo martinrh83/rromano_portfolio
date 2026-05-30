@@ -71,7 +71,7 @@ export function Education() {
       <div className="education-container">
         <div className="section-header">
           <div>
-            <span className="section-index">05 / Education</span>
+            <span className="section-index">04 / Education</span>
             <h2 className="section-title">The foundation</h2>
           </div>
           <p className="section-subtitle">

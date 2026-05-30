@@ -119,7 +119,7 @@ export function Contact() {
             <h2 className="section-title">Get In Touch</h2>
           </div>
           <p className="section-subtitle">
-            Let&apos;s build something that matters.
+            Buenos Aires, GMT&minus;3. I read every message and usually reply the same day.
           </p>
         </div>
 
